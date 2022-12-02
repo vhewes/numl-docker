@@ -1,4 +1,4 @@
-ARG PYTORCH="1.13.0"
+ARG PYTORCH="1.12.1"
 ARG CUDA="11.6"
 
 FROM nvidia/cuda:${CUDA}.0-devel-ubuntu20.04
