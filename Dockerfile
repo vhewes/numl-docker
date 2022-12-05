@@ -25,11 +25,12 @@ RUN curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/downloa
     bash Mambaforge-$(uname)-$(uname -m).sh -b -p $CONDA_DIR && \
     rm Mambaforge-$(uname)-$(uname -m).sh && \
     conda config --set changeps1 False && \
-    conda init && \
-    conda install -y git vim htop ncdu build compilers automake ninja openblas \
-                     PyYAML ipywidgets jupyterlab seaborn plotly numba particle \
-                     mpi4py h5py=*=*mpich* uproot pytorch=$PYTORCH=*cuda${CUDA}* \
-                     tensorboard torchmetrics pytorch-lightning -c pytorch
+    conda init
+RUN conda install -y git vim htop ncdu build compilers automake ninja openblas
+RUN conda install -y PyYAML ipywidgets jupyterlab seaborn plotly numba particle \
+                     mpi4py h5py=*=*mpich* uproot
+RUN conda install pytorch=$PYTORCH=*cuda${CUDA}* -c pytorch
+RUN conda install tensorboard torchmetrics pytorch-lightning
 
 # install ph5concat
 RUN cd /usr/local && \
