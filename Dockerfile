@@ -17,6 +17,8 @@ ENV CONDA_DIR=/usr/local/mambaforge
 ENV PATH=$CONDA_DIR/bin:$PATH
 ENV CUDA_HOME=/usr/local/cuda
 ENV OMP_NUM_THREADS=16
+ENV TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0+PTX 8.6"
+ENV TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
 
 # install mambaforge conda and dependencies
 RUN curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh" && \
@@ -39,8 +41,6 @@ RUN cd /usr/local && \
     make install
 
 # install MinkowskiEngine
-ENV TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0+PTX 8.6"
-ENV TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
 RUN pip install -U git+https://github.com/StanfordVL/MinkowskiEngine -v --no-deps \
   --install-option="--force_cuda" --install-option="--blas=openblas" \
   --install-option="--blas_include_dirs=${CONDA_DIR}/include"
