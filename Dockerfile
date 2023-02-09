@@ -37,7 +37,7 @@ RUN cd /usr/local && \
     git clone https://github.com/NU-CUCIS/ph5concat && \
     cd ph5concat && \
     autoreconf -i && \
-    ./configure CFLAGS="-O2 -DNDEBUG" CXXFLAGS="-O2 -DNDEBUG" \
+    ./configure CFLAGS="-O2 -DNDEBUG" CXXFLAGS="-O2 -DNDEBUG -std=c++14" \
                 LIBS="-ldl -lz" PREFIX=/usr/local --enable-profiling && \
     make install
 
