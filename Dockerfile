@@ -1,10 +1,20 @@
-ARG PYTORCH="1.12.1"
-ARG CUDA="11.6"
+ARG TORCH=1.12.1
 
-FROM nvidia/cuda:${CUDA}.0-devel-ubuntu20.04
+# cuda version
+ARG CUDA_MAJOR=11
+ARG CUDA_MINOR=6
+ARG CUDA_FIX=1
 
-ARG PYTORCH
-ARG CUDA
+# these need to be arranged differently for different packages
+ARG CUDA="${CUDA_MAJOR}.${CUDA_MINOR}.${CUDA_FIX}"
+ARG CUDA_TORCH="${CUDA_MAJOR}.${CUDA_MINOR}"
+ARG CUDA_PYG="${CUDA_MAJOR}${CUDA_MINOR}"
+
+FROM nvidia/cuda:${CUDA}-devel-ubuntu20.04
+
+ARG TORCH
+ARG CUDA_TORCH
+ARG CUDA_PYG
 
 # install basic packages
 RUN apt-get update && \
@@ -29,8 +39,8 @@ RUN curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/downloa
 RUN conda install -y git vim htop ncdu build compilers automake ninja openblas
 RUN conda install -y PyYAML ipywidgets jupyterlab seaborn plotly numba particle \
                      mpi4py h5py=*=*mpich* uproot
-RUN conda install pytorch=$PYTORCH=*cuda${CUDA}* -c pytorch
-RUN conda install tensorboard torchmetrics pytorch-lightning
+RUN conda install -y pytorch=$TORCH=*cuda${CUDA_TORCH}* -c pytorch
+RUN conda install -y tensorboard torchmetrics pytorch-lightning
 
 # install ph5concat
 RUN cd /usr/local && \
@@ -47,9 +57,8 @@ RUN pip install -U git+https://github.com/StanfordVL/MinkowskiEngine -v --no-dep
   --install-option="--blas_include_dirs=${CONDA_DIR}/include"
 
 # install PyTorch Geometric
-RUN cugeo=$(echo $CUDA | tr -d .) && \
-    pip install torch-scatter -f https://pytorch-geometric.com/whl/torch-${PYTORCH}+cu${cugeo}.html && \
-    pip install torch-sparse -f https://pytorch-geometric.com/whl/torch-${PYTORCH}+cu${cugeo}.html && \
+RUN pip install torch-scatter -f https://pytorch-geometric.com/whl/torch-${TORCH}+cu${CUDA_PYG}.html && \
+    pip install torch-sparse -f https://pytorch-geometric.com/whl/torch-${TORCH}+cu${CUDA_PYG}.html && \
     pip install torch-geometric
 
 # install numl packages
