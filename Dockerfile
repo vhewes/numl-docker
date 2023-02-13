@@ -1,20 +1,7 @@
-ARG TORCH=1.13.1
-
-# cuda version
-ARG CUDA_MAJOR=11
-ARG CUDA_MINOR=7
-ARG CUDA_FIX=1
-
-# these need to be arranged differently for different packages
-ARG CUDA="${CUDA_MAJOR}.${CUDA_MINOR}.${CUDA_FIX}"
-ARG CUDA_TORCH="${CUDA_MAJOR}.${CUDA_MINOR}"
-ARG CUDA_PYG="${CUDA_MAJOR}${CUDA_MINOR}"
-
 FROM ubuntu:20.04
 
-ARG TORCH
-ARG CUDA_TORCH
-ARG CUDA_PYG
+ARG TORCH=1.13
+ARG CUDA=11.7
 
 # install basic packages
 RUN apt-get update && \
@@ -25,7 +12,6 @@ RUN apt-get update && \
 # environment vars
 ENV CONDA_DIR=/usr/local/mambaforge
 ENV PATH=$CONDA_DIR/bin:$PATH
-ENV CUDA_HOME=/usr/local/cuda
 ENV OMP_NUM_THREADS=16
 ENV TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0+PTX 8.6"
 ENV TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
@@ -36,12 +22,11 @@ RUN curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/downloa
     rm Mambaforge-$(uname)-$(uname -m).sh && \
     conda config --set changeps1 False && \
     conda init
-RUN conda install -y git vim htop ncdu build compilers automake ninja openblas
-RUN conda install -y PyYAML ipywidgets jupyterlab seaborn plotly numba particle \
-                     mpi4py h5py=*=*mpich* uproot
-RUN conda install -y pytorch pytorch-cuda=$CUDA_TORCH -c pytorch -c nvidia
-RUN conda install -y tensorboard torchmetrics pytorch-lightning
-RUN conda install -y pyg -c pyg
+RUN conda install -y git vim htop ncdu build compilers automake ninja openblas \
+                     PyYAML ipywidgets jupyterlab seaborn plotly numba particle \
+                     mpi4py h5py=*=*mpich* uproot pytorch=$TORCH pytorch-cuda=$CUDA \
+                     tensorboard torchmetrics pytorch-lightning pyg \
+                     -c pytorch -c nvidia -c pyg
 
 # install ph5concat
 RUN cd /usr/local && \
