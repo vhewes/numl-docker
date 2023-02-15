@@ -1,8 +1,5 @@
 FROM ubuntu:20.04
 
-ARG TORCH=1.13
-ARG CUDA=11.7
-
 # install basic packages
 RUN apt-get update && \
     apt-get upgrade -y && \
@@ -22,11 +19,15 @@ RUN curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/downloa
     rm Mambaforge-$(uname)-$(uname -m).sh && \
     conda config --set changeps1 False && \
     conda init
-RUN conda install -y git vim htop ncdu build compilers automake ninja openblas \
-                     PyYAML ipywidgets jupyterlab seaborn plotly numba particle \
-                     mpi4py h5py=*=*mpich* uproot pytorch=$TORCH pytorch-cuda=$CUDA \
-                     tensorboard torchmetrics pytorch-lightning pyg \
-                     -c pytorch -c nvidia -c pyg
+RUN conda install -y git vim htop ncdu build compilers automake ninja openblas
+RUN conda install -y PyYAML ipywidgets jupyterlab seaborn plotly numba particle \
+                     mpi4py h5py=*=*mpich* uproot
+
+# install pytorch and related dependencies
+ARG TORCH=1.13
+ARG CUDA=11.7
+RUN conda install -y pytorch=$TORCH pytorch-cuda=$CUDA tensorboard torchmetrics \
+                     pytorch-lightning pyg -c pytorch -c nvidia -c pyg
 
 # install ph5concat
 RUN cd /usr/local && \
@@ -37,6 +38,6 @@ RUN cd /usr/local && \
                 LIBS="-ldl -lz" PREFIX=/usr/local --enable-profiling && \
     make install
 
-# install numl packages
+# install pynuml
 RUN pip install pynuml
 
