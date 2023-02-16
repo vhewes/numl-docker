@@ -40,5 +40,5 @@ FROM base AS pytorch
 # install pytorch and related dependencies
 ARG TORCH=1.13
 ARG CUDA=11.7
-RUN conda install pytorch=$TORCH pytorch-cuda=$CUDA tensorboard torchmetrics \
-                  pytorch-lightning pyg -c pytorch -c nvidia -c pyg
+RUN conda install -y pytorch::pytorch=$TORCH pytorch-cuda=$CUDA tensorboard torchmetrics \
+                     pytorch-lightning pyg -c pytorch -c nvidia -c pyg
