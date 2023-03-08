@@ -3,7 +3,7 @@ FROM ubuntu:20.04 AS base
 # install basic packages
 RUN apt-get update && \
     apt-get upgrade -y && \
-    apt-get install -y ack curl net-tools build-essential && \
+    apt-get install -y ack curl net-tools build-essential uuid-runtime && \
     apt-get clean
 
 # environment vars
