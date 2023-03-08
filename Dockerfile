@@ -48,3 +48,22 @@ RUN conda install -y libcusolver-dev -c nvidia
 RUN pip install -U git+https://github.com/NVIDIA/MinkowskiEngine -v --no-deps \
                 --install-option="--blas_include_dirs=$CONDA_PREFIX/include" \
                 --install-option="--blas=openblas" --install-option="--force_cuda"
+
+# clone NOvA pandana into a temporary image
+FROM pytorch AS pandana
+ARG SSH_KEY
+RUN mkdir /root/.ssh && \
+    echo "$SSH_KEY" > /root/.ssh/id && \
+    chmod 700 /root/.ssh/id && \
+    eval $(ssh-agent) && \
+    ssh-add /root/.ssh/id && \
+    ssh-keyscan github.com >> ~/.ssh/known_hosts && \
+    cd /usr/local && \
+    git clone git@github.com:novaexperiment/NOvAPandAna
+
+# install pandana and copy NOvA pandana from temporary image
+FROM pytorch AS nova
+RUN conda install -y boost-histogram
+RUN cd /usr/local && \
+    git clone https://github.com/HEPonHPC/pandana
+COPY --from=pandana /usr/local/NOvAPandAna /usr/local/NOvAPandAna
