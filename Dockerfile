@@ -42,7 +42,7 @@ FROM base AS pytorch
 ARG TORCH=1.13
 ARG CUDA=11.7
 RUN conda install -y pytorch::pytorch=$TORCH pytorch-cuda=$CUDA tensorboard torchmetrics \
-                     pytorch-lightning pyg -c pytorch -c nvidia -c pyg
+                     pytorch-lightning pyg pytorch-scatter -c pytorch -c nvidia -c pyg
 # manually install MinkowskiEngine
 ENV CUDA_HOME=$CONDA_PREFIX
 RUN conda install -y libcusolver-dev -c nvidia
