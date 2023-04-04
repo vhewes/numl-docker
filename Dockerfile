@@ -19,9 +19,10 @@ RUN curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/downloa
     rm Mambaforge-$(uname)-$(uname -m).sh && \
     conda config --set changeps1 False && \
     conda init
-RUN conda install -y git vim htop ncdu build compilers automake ninja openblas openssh zlib
-RUN conda install -y PyYAML ipywidgets jupyterlab seaborn plotly numba particle \
-                     mpi4py h5py=*=*mpich* uproot
+RUN conda install -y git vim htop ncdu build compilers automake ninja \
+                     openblas openssh pyzmq zlib
+RUN conda install -y PyYAML ipywidgets jupyterlab seaborn plotly numba \
+                     particle mpi4py h5py=*=*mpich* uproot
 
 # install ph5concat
 RUN cd /usr/local && \
