@@ -20,8 +20,10 @@ dependencies:
   - openblas
   - openssh
   - particle
+  - pip
   - plotly
   - pyg
+  - python-kaleido
   - pytorch::pytorch=2.0
   - pytorch-cuda=11.8
   - pytorch-lightning
@@ -34,3 +36,5 @@ dependencies:
   - uproot
   - vim
   - zlib
+  - pip:
+      - pynuml
