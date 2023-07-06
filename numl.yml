@@ -8,11 +8,13 @@ dependencies:
   - automake
   - build
   - compilers
+  - flit
   - git
   - h5py=*=*mpich*
   - htop
   - ipywidgets
   - jupyterlab
+  - jupyterlab-plotly-extension
   - mpi4py
   - ncdu
   - ninja
