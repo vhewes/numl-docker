@@ -16,6 +16,7 @@ dependencies:
   - jupyterlab
   - jupyterlab-plotly-extension
   - mpi4py
+  - nbstripout
   - ncdu
   - ninja
   - numba
