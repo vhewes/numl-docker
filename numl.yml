@@ -27,6 +27,7 @@ dependencies:
   - plotly
   - pyg
   - pynvml
+  - pytables
   - python-kaleido
   - pytorch::pytorch=2.0
   - pytorch-cuda=11.8
