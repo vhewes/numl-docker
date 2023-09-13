@@ -24,6 +24,7 @@ dependencies:
   - openblas
   - openssh
   - particle
+  - ph5concat
   - pip
   - plotly
   - pyg
