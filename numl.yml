@@ -4,6 +4,7 @@ channels:
   - nvidia
   - pytorch
   - pyg
+  - numl
 dependencies:    
   - automake
   - build
@@ -26,6 +27,7 @@ dependencies:
   - pip
   - plotly
   - pyg
+  - pynuml
   - pynvml
   - pytables
   - python-kaleido
@@ -40,5 +42,3 @@ dependencies:
   - uproot
   - vim
   - zlib
-  - pip:
-      - pynuml
