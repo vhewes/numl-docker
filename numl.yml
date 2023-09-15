@@ -21,6 +21,7 @@ dependencies:
   - ncdu
   - ninja
   - numba
+  - numexpr>=2.8.0 # temporary fix
   - openblas
   - openssh
   - particle
