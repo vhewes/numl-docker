@@ -20,6 +20,7 @@ dependencies:
   - nbstripout
   - ncdu
   - ninja
+  - nugraph
   - numba
   - numexpr>=2.8.0 # temporary fix
   - openblas
