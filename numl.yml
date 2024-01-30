@@ -34,8 +34,8 @@ dependencies:
   - pynvml
   - pytables
   - python-kaleido
-  - pytorch::pytorch=2.0
-  - pytorch-cuda=11.8
+  - pytorch::pytorch=2.1
+  - pytorch-cuda=12.1
   - pytorch-lightning
   - PyYAML
   - pyzmq
